@@ -1,7 +1,7 @@
 import fs from 'fs'
 
-export default function logToFile(message: String) {
-    const logMessage = `${new Date().toISOString()} - ${message}\n\n`;
+export default function logToFile(message: String): void {
+    const logMessage: string = `${new Date().toISOString()} - ${message}\n\n`;
 
     fs.appendFile('error.log', logMessage, (err) => {
         if (err) {

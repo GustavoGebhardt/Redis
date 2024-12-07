@@ -1,7 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { corsOptions } from './config/cors'
-import redis from "./config/redis"
+import corsOptions from './config/cors'
 import routes from './routes/routes'
 
 const app = express()

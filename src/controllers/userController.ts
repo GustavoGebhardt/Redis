@@ -8,11 +8,11 @@ import redis from '../config/redis'
 
 const prisma = new PrismaClient()
 
-export async function store(req: Request, res: Response) {
+export async function store(req: Request, res: Response): Promise<void> {
     try {
         const { email, password, username }: User = await req.body
 
-        const hashedPassword = await createHashPassword(password)
+        const hashedPassword: string = await createHashPassword(password)
 
         const user: User = await prisma.user.create({
             data: {
@@ -33,7 +33,7 @@ export async function store(req: Request, res: Response) {
     }
 }
 
-export async function session(req: Request, res: Response) {
+export async function session(req: Request, res: Response): Promise<void> {
     try {
         const { email, password }: User = await req.body
 
@@ -65,12 +65,12 @@ export async function session(req: Request, res: Response) {
 
         if (user) {
             console.time("Password Match")
-            const isPasswordMatch = await verifyPasswordByEmail(password, user?.password)
+            const isPasswordMatch: boolean = await verifyPasswordByEmail(password, user?.password)
             console.timeEnd("Password Match")
 
             if (isPasswordMatch) {
                 redis.setex(`user:email:${user.email}`, 3600, JSON.stringify(user));
-                const token = jwt.sign(user, auth.secret!, { expiresIn: auth.expiresIn })
+                const token: string = jwt.sign(user, auth.secret!, { expiresIn: auth.expiresIn })
                 res.status(201).send({ "token": token })
                 console.timeEnd("Total Time");
             } else {
@@ -85,6 +85,6 @@ export async function session(req: Request, res: Response) {
     }
 }
 
-export async function remove(req: Request, res: Response) {
+export async function remove(req: Request, res: Response): Promise<void> {
 
 }
