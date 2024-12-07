@@ -29,7 +29,7 @@ export async function store(req: Request, res: Response): Promise<void> {
         }
     } catch (e: any) {
         logToFile(e)
-        res.status(400).send({ "error": "Erro ao criar usuário" })
+        res.status(400).send({ error: "Erro ao criar usuário" })
     }
 }
 
@@ -71,7 +71,7 @@ export async function session(req: Request, res: Response): Promise<void> {
             if (isPasswordMatch) {
                 redis.setex(`user:email:${user.email}`, 3600, JSON.stringify(user));
                 const token: string = jwt.sign(user, auth.secret!, { expiresIn: auth.expiresIn })
-                res.status(201).send({ "token": token })
+                res.status(201).send({ token: token })
                 console.timeEnd("Total Time");
             } else {
                 throw new Error('failed verification')
@@ -81,7 +81,7 @@ export async function session(req: Request, res: Response): Promise<void> {
         }
     } catch (e: any) {
         logToFile(e)
-        res.status(400).send({ "error": "Email ou senha invalidos" })
+        res.status(400).send({ error: "Email ou senha invalidos" })
     }
 }
 
