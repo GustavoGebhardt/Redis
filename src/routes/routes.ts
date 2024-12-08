@@ -11,7 +11,7 @@ routes.post("/session", session)
 
 routes.use(authMiddleware)
 
-routes.get("/user", remove)
+routes.delete("/user", remove)
 
 routes.use(errorMiddleware)
 
